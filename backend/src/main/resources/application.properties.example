@@ -1,0 +1,85 @@
+# Server Configuration
+server.port=${PORT:8080}
+server.address=${SERVER_ADDRESS:0.0.0.0}
+server.servlet.context-path=${SERVER_CONTEXT_PATH:/api}
+
+# MySQL Database Configuration
+# Supports both environment variables and default values for local development
+spring.datasource.url=${DATABASE_URL:jdbc:mysql://localhost:3306/emotion_monitoring?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+spring.datasource.username=${DATABASE_USERNAME:root}
+spring.datasource.password=${DATABASE_PASSWORD:}
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+# Connection Pool Configuration for Production
+spring.datasource.hikari.maximum-pool-size=${DATABASE_POOL_SIZE:10}
+spring.datasource.hikari.minimum-idle=${DATABASE_POOL_MIN_IDLE:5}
+spring.datasource.hikari.connection-timeout=20000
+spring.datasource.hikari.idle-timeout=300000
+spring.datasource.hikari.max-lifetime=1200000
+
+# JPA/Hibernate Configuration
+spring.jpa.hibernate.ddl-auto=${JPA_DDL_AUTO:update}
+spring.jpa.show-sql=${JPA_SHOW_SQL:false}
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+spring.jpa.properties.hibernate.format_sql=${JPA_FORMAT_SQL:false}
+spring.jpa.properties.hibernate.jdbc.time_zone=UTC
+
+# Logging Configuration
+logging.level.root=${LOG_LEVEL:INFO}
+logging.level.com.medical.emotionmonitoring=${APP_LOG_LEVEL:DEBUG}
+logging.level.com.medical.emotionmonitoring.service.EmotionDetectionService=DEBUG
+logging.level.com.medical.emotionmonitoring.controller.EmotionController=DEBUG
+logging.level.org.hibernate.SQL=${HIBERNATE_SQL_LOG:false}
+logging.level.org.hibernate.type.descriptor.sql.BasicBinder=${HIBERNATE_SQL_BINDER:false}
+logging.level.org.springframework.security=${SECURITY_LOG_LEVEL:WARN}
+
+# JWT Configuration
+jwt.secret=${JWT_SECRET:medical-emotion-monitoring-secret-key-2024-change-in-production}
+jwt.expiration=${JWT_EXPIRATION:86400000}
+
+# CORS Configuration
+app.cors.allowed-origins=${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:4200}
+
+# Emotion Detection API Configuration
+# Multiple API providers supported:
+# 1. LUXAND - Free tier: 500 requests/month, no credit card required
+#    URL: https://api.luxand.cloud/photo/emotions
+#    Get API key: https://luxand.cloud/
+# 2. HUGGINGFACE - Free tier: Limited requests, requires API key
+#    URL: https://api-inference.huggingface.co/models/trpakov/vit-face-expression
+#    Get API key: https://huggingface.co/settings/tokens
+# 3. EDEN_AI - Free tier: Limited requests
+#    URL: https://api.edenai.run/v2/image/face_detection
+#    Get API key: https://www.edenai.co/
+
+# API Provider: LUXAND, HUGGINGFACE, or EDEN_AI
+emotion.api.provider=${EMOTION_API_PROVIDER:LUXAND}
+
+# Luxand API Configuration (Primary - 500 free requests/month)
+emotion.api.luxand.url=${EMOTION_API_LUXAND_URL:https://api.luxand.cloud/photo/emotions}
+emotion.api.luxand.key=${EMOTION_API_LUXAND_KEY:}
+
+# Hugging Face API Configuration (Fallback)
+emotion.api.huggingface.url=${EMOTION_API_HUGGINGFACE_URL:https://router.huggingface.co/hf-inference/models/trpakov/vit-face-expression}
+emotion.api.huggingface.key=${EMOTION_API_HUGGINGFACE_KEY}
+
+# Eden AI Configuration (Alternative)
+emotion.api.edenai.url=${EMOTION_API_EDENAI_URL:https://api.edenai.run/v2/image/face_detection}
+emotion.api.edenai.key=${EMOTION_API_EDENAI_KEY}
+
+# Legacy configuration (for backward compatibility)
+emotion.api.url=${EMOTION_API_URL:https://api-inference.huggingface.co/models/trpakov/vit-face-expression}
+emotion.api.key=${EMOTION_API_KEY:}
+emotion.api.enabled=${EMOTION_API_ENABLED:true}
+
+# File Upload Configuration
+spring.servlet.multipart.max-file-size=${MAX_FILE_SIZE:10MB}
+spring.servlet.multipart.max-request-size=${MAX_REQUEST_SIZE:10MB}
+
+# Security Configuration
+security.login.max-attempts=${LOGIN_MAX_ATTEMPTS:5}
+security.login.lockout-duration-minutes=${LOGIN_LOCKOUT_DURATION:30}
+
+# Spring Profiles
+spring.profiles.active=${SPRING_PROFILES_ACTIVE:}
+

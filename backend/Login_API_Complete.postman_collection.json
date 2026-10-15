@@ -1,0 +1,260 @@
+{
+	"info": {
+		"_postman_id": "login-api-complete",
+		"name": "Login API - Complete Request",
+		"description": "Complete Postman collection for Login API with automatic JWT token extraction",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Test script pour extraire le token JWT de la réponse de login",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// Extraire et stocker le token JWT",
+							"if (pm.response.code === 200) {",
+							"    try {",
+							"        var jsonData = pm.response.json();",
+							"        ",
+							"        // Vérifier que le token existe dans la réponse",
+							"        if (jsonData.token) {",
+							"            // Stocker le token dans la variable d'environnement TOKEN",
+							"            pm.environment.set(\"TOKEN\", jsonData.token);",
+							"            ",
+							"            // Optionnel: Stocker d'autres informations utiles",
+							"            if (jsonData.id) {",
+							"                pm.environment.set(\"userId\", jsonData.id);",
+							"            }",
+							"            if (jsonData.email) {",
+							"                pm.environment.set(\"userEmail\", jsonData.email);",
+							"            }",
+							"            if (jsonData.role) {",
+							"                pm.environment.set(\"userRole\", jsonData.role);",
+							"            }",
+							"            if (jsonData.fullName) {",
+							"                pm.environment.set(\"userFullName\", jsonData.fullName);",
+							"            }",
+							"            ",
+							"            // Afficher un message de confirmation dans la console",
+							"            console.log(\"✅ Token JWT extrait et stocké avec succès\");",
+							"            console.log(\"Token (preview): \" + jsonData.token.substring(0, 20) + \"...\");",
+							"            console.log(\"User ID: \" + jsonData.id);",
+							"            console.log(\"User Role: \" + jsonData.role);",
+							"            ",
+							"            // Test: Vérifier que le token a été stocké",
+							"            pm.test(\"Token stored in environment\", function () {",
+							"                pm.expect(pm.environment.get(\"TOKEN\")).to.not.be.empty;",
+							"            });",
+							"        } else {",
+							"            console.error(\"❌ Token non trouvé dans la réponse\");",
+							"            pm.test(\"Token exists in response\", function () {",
+							"                pm.expect(jsonData.token).to.exist;",
+							"            });",
+							"        }",
+							"    } catch (error) {",
+							"        console.error(\"❌ Erreur lors de l'extraction du token:\", error);",
+							"        throw error;",
+							"    }",
+							"} else {",
+							"    console.error(\"❌ La requête a échoué avec le code:\", pm.response.code);",
+							"    try {",
+							"        var errorBody = pm.response.json();",
+							"        console.error(\"Message d'erreur:\", errorBody);",
+							"    } catch (e) {",
+							"        console.error(\"Erreur lors de la lecture du body:\", e);",
+							"    }",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"password123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				},
+				"description": "Login request with email and password. Returns JWT token in response. The token is automatically extracted and stored in TOKEN environment variable."
+			},
+			"response": []
+		},
+		{
+			"name": "Login - Patient Example",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"patient@example.com\",\n  \"password\": \"patient123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				},
+				"description": "Example login for a patient user"
+			},
+			"response": []
+		},
+		{
+			"name": "Login - Doctor Example",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"doctor@example.com\",\n  \"password\": \"doctor123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				},
+				"description": "Example login for a doctor user"
+			},
+			"response": []
+		},
+		{
+			"name": "Login - Invalid Credentials Example",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"wrong@example.com\",\n  \"password\": \"wrongpassword\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				},
+				"description": "Example login with invalid credentials (will return 401)"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080/api",
+			"type": "string"
+		},
+		{
+			"key": "TOKEN",
+			"value": "",
+			"type": "string",
+			"description": "JWT token extracted from login response"
+		},
+		{
+			"key": "userId",
+			"value": "",
+			"type": "string",
+			"description": "User ID from login response"
+		},
+		{
+			"key": "userEmail",
+			"value": "",
+			"type": "string",
+			"description": "User email from login response"
+		},
+		{
+			"key": "userRole",
+			"value": "",
+			"type": "string",
+			"description": "User role (PATIENT or DOCTOR) from login response"
+		}
+	]
+}
+

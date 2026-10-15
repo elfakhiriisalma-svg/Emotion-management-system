@@ -1,0 +1,42 @@
+﻿# === Java / Maven (fichiers compilés) ===
+backend/bin/
+backend/target/
+*.class
+*.jar
+
+# === Flutter / Dart ===
+build/
+.dart_tool/
+.flutter-plugins
+.packages
+
+# === IDE ===
+.idea/
+.vscode/
+*.iml
+
+# === LaTeX (fichiers générés automatiquement) ===
+*.aux
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.synctex.gz
+*.toc
+
+# === Scripts temporaires ===
+rename_script.ps1
+
+# === Vidéos trop volumineuses ===
+screen/*.mp4
+screen/*.mov
+
+# === Système ===
+.DS_Store
+Thumbs.db
+
+# Configuration sensible (contient des secrets)
+backend/src/main/resources/application.properties
+backend/src/main/resources/application-prod.properties

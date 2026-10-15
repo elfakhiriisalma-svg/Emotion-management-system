@@ -1,0 +1,18 @@
+Version Maven Requise pour ce Projet
+=====================================
+
+Version Recommandée: Maven 3.9.6
+
+Lien de Téléchargement Direct:
+https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.zip
+
+Page de Téléchargement:
+https://maven.apache.org/download.cgi
+
+Version Minimale: Maven 3.5+
+Version Recommandée: Maven 3.9.6
+
+Compatible avec:
+- Spring Boot 3.2.0 ✅
+- Java 17+ ✅ (Vous avez Java 23)
+
